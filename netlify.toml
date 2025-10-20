@@ -1,0 +1,7 @@
+[build]
+  base = "react/scissors_rock_paper_play"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"

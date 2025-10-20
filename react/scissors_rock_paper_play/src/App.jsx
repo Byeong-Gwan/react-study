@@ -23,16 +23,18 @@ const choice = {
 
 function App() {
   const [userSelect, setUserSelect] = useState(null);
+  const [cmputerSelect, setComputerSelect] = useState(null);
 
   const play = (userChoice) => {
    setUserSelect(choice[userChoice]); 
+   setComputerSelect(choice[Object.keys(choice)[Math.floor(Math.random() * 3)]]);
   }
 
   return (
     <div>
       <div className='main'>
         <Box title='You' item={userSelect} />
-        <Box title='Computer' />
+        <Box title='Computer' item={cmputerSelect}/>
       </div>
       <div className='main'>
         <button onClick={() => {play('scissors')}}>가위</button>

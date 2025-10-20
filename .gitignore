@@ -1,0 +1,36 @@
+# Node.js
+node_modules/
+react/scissors_rock_paper_play/node_modules/
+
+# Build output
+/dist/
+/build/
+/dist-ssr/
+react/scissors_rock_paper_play/dist/
+.vite/
+.cache/
+.tmp/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.eslintcache
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Netlify (config file stays, working dir ignored)
+.netlify/

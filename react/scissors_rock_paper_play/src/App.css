@@ -1,19 +1,266 @@
+/* 카드 공통 스타일: 보더/그림자/패딩/박스사이징 */
 .box {
-  border: 1px solid black;
-  width: 400px;
+  border: 1px solid #e2e8f0;
+  width: 100%;
+  max-width: clamp(280px, 92vw, 420px);
   border-radius: 10px;
   padding: 12px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+  margin-inline: auto;
+  box-sizing: border-box; /* 패딩/보더 포함 크기 계산 */
 }
 
+/* 카드 이미지: 크기 제어(과대 방지) */
 .item-img {
-  width: 400px;
+  width: 100%;
+  height: auto;
+  max-height: 180px; /* 카드 높이 이탈 방지 */
+  object-fit: contain;
 }
 
+/* 결과 영역 높이 고정 */
 h2 {
   height: 39px;
 }
 
+/* 결과 텍스트를 눈에 띄게 */
+.result {
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin-top: 4px;
+  min-height: 28px;
+  transition: color 180ms ease, transform 180ms ease;
+}
+.result.win { color: #16a34a; }
+.result.lose { color: #dc2626; }
+.result.tie { color: #334155; }
+.result.idle { color: #94a3b8; font-weight: 500; }
+
 .main {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: clamp(8px, 3vw, 16px);
+}
+
+/* Modal UI */
+/* 모달 배경(딤) */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.6);
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 9999;
+  overflow: auto; /* 모달 내용이 길어질 때 스크롤 가능 */
+  pointer-events: auto;
+}
+
+/* 모달 컨테이너(외곽) */
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 560px; /* 컴팩트한 모달 너비 */
+  background: #f8fafc00; /* transparent to let inner card shadow pop */
+  pointer-events: auto;
+}
+
+/* 모달 내용 박스(흰 배경/내부 스크롤) */
+.modal-inner {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px 16px 20px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.28), 0 2px 6px rgba(15, 23, 42, 0.1);
+  max-height: 80vh; /* 창 높이 넘칠 때 내부 스크롤 */
+  overflow: auto;
+}
+
+/* 모달 내부 카드가 겹치지 않도록 고정 폭 부여 */
+/* 모달 내부 레이아웃 간격 */
+.modal-inner .main {
+  gap: 12px;
+}
+/* 모달 내부 카드: 그리드 셀 너비 채움 */
+.modal-inner .box {
+  width: 100%; /* 그리드 셀 너비 채우기 */
+  max-width: none;
+  margin-inline: 0; /* 자동 여백으로 인해 레이아웃 깨짐 방지 */
+}
+
+/* 반응형: 모바일 레이아웃 */
+@media (max-width: 640px) {
+  .modal {
+    max-width: 96vw;
+  }
+  .modal-inner .main {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .modal-inner .box {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* 모달 닫기 버튼(X) */
+.modal-close {
+  position: absolute;
+  top: -8px;
+  left: -8px; /* 왼쪽 상단 'X' */
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: #f8fafc;
+}
+
+/* 타이틀 */
+.app-title {
+  text-align: center;
+  margin: 8px 0 10px;
+}
+
+/* 보조 배지 */
+.badge {
+  display: inline-block;
+  font-size: 13px;
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+/* 컨트롤 영역: 경기 형식/스코어 */
+.controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+/* 드롭다운 UI */
+.controls-row select {
+  margin-left: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+/* 점수 텍스트 */
+.score-caption {
+  color: #0f172a;
+  font-weight: 500;
+}
+
+/* 모달 열기 버튼 */
+.open-game-btn {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+/* 모달 열기 버튼 hover */
+.open-game-btn:hover {
+  background: #111827;
+}
+
+/* 카드 2열 그리드 */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+/* 버튼 행 */
+.button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 버튼 기본 UI */
+.button-row button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: auto; /* 전역 스타일의 width:100% 강제화 무효화 */
+}
+
+/* 더 높은 특이성으로 버튼 가로폭 강제 */
+.modal-inner .button-row button {
+  width: auto !important;
+  min-width: 64px;
+}
+
+/* 승수 표시 점 */
+/* 승점 도트 래퍼 */
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* 승점 도트(기본) */
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #cbd5e1; /* slate-300 (초기 회색) */
+  box-shadow: inset 0 0 0 1px rgba(15,23,42,0.08);
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+/* 승점 도트(채움) */
+.dot.filled {
+  background: #22c55e; /* green-500 (승리 시 초록) */
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.18);
+}
+
+/* 매치 승자 카드 강조 */
+.match-winner {
+  border-color: #16a34a !important; /* green-600 */
+  box-shadow: 0 0 0 3px rgba(22,163,74,0.25), 0 10px 24px rgba(22, 163, 74, 0.22);
+  transform: translateZ(0); /* GPU hint */
+  animation: winner-pop 240ms ease;
+}
+
+/* 승자 팝 애니메이션 */
+@keyframes winner-pop {
+  0% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 640px) {
+  .cards {
+    grid-template-columns: 1fr; /* 모바일에서 세로 스택 */
+  }
 }

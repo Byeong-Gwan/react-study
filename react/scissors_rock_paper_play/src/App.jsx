@@ -16,7 +16,6 @@ import init from './assets/init.png'
    */
 
 const choice = {
-  initScreen: { name: 'Init', img: init },
   scissors: { name: 'Scissors', img: scissors },
   rock: { name: 'Rock', img: rock },
   paper: { name: 'Paper', img: paper },
@@ -24,8 +23,8 @@ const choice = {
 
 function App() {
   // 초기 렌더 시 '?' 이미지로 셋팅
-  const [userSelect, setUserSelect] = useState(choice.initScreen);
-  const [computerSelect, setComputerSelect] = useState(choice.initScreen);
+  const [userSelect, setUserSelect] = useState({ name: 'Init', img: init });
+  const [computerSelect, setComputerSelect] = useState({ name: 'Init', img: init });
   const [result, setResult] = useState('');
 
   const play = (userChoice) => {

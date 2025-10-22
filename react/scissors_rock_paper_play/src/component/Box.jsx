@@ -9,11 +9,21 @@ function Box(props) {
         result = props.result;
     }
 
+    const imgSrc = props.item && props.item.img;
+
     return (
         <div >
             <div className={`box ${result}`}>
                 <h1>{props.title}</h1>
-                <img className='item-img' src={props.item && props.item.img} />
+                {imgSrc && (
+                    <img
+                      className='item-img'
+                      src={imgSrc}
+                      alt={`${props.title} choice`}
+                      loading="eager"
+                      decoding="sync"
+                    />
+                )}
                 <h2>{result}</h2>
             </div>
         </div>

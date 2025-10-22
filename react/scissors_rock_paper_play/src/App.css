@@ -1,19 +1,107 @@
+/* 카드: 부드러운 테두리와 라이트 섀도우 */
 .box {
-  border: 1px solid black;
-  width: 400px;
-  border-radius: 10px;
-  padding: 12px;
+  border: 1px solid #e2e8f0;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 14px;
+  padding: 16px;
+  margin-inline: auto;
+  box-sizing: border-box; /* 상태 보더 변경에도 가로폭 유지 */
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15,23,42,0.08);
 }
 
-.item-img {
-  width: 400px;
+/* 카드 이미지: 가운데 축소 배치 */
+.box .item-img {
+  width: 100%;
+  height: auto;
+  max-height: 160px; /* 이미지 과대 방지 */
+  object-fit: contain;
+  max-width: 70%; /* 카드 폭 대비 이미지 폭 축소 */
+  display: block;
+  margin: 8px auto 0; /* 가운데 정렬 */
 }
 
+/* 결과 텍스트 영역 높이 유지 */
 h2 {
   height: 39px;
 }
 
+/* 하단 버튼 컨테이너 */
 .main {
   display: flex;
   justify-content: center;
 }
+
+/* 결과 배지 스타일 (h2.result에 적용) */
+.result {
+  display: inline-block;
+  min-width: 68px;
+  text-align: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .2px;
+  margin-top: 8px;
+}
+
+/* 승리, 패배, 비김 각각에 맞는 테두리 적용 */
+.win  { border: 10px solid green; color:#065f46; background:#d1fae5; }
+.lose { border: 10px solid red; color:#7f1d1d; background:#fee2e2; }
+.tie  { border: 10px solid black; color:#334155; background:#e2e8f0; }
+
+/* 카드 2열 기본(데스크톱), 모바일에서 1열로 */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  padding-inline: 12px; /* 좌우 여백으로 테두리 튐 방지 */
+  box-sizing: border-box;
+}
+
+/* 버튼 한 줄 정렬 유지 */
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 640px) {
+  .cards {
+    grid-template-columns: 1fr; /* 카드 세로 스택 */
+  }
+  .button-row {
+    flex-wrap: wrap;           /* 버튼 줄바꿈 허용 */
+    gap: 16px;
+  }
+  .modal {
+    max-width: 96vw;           /* 모달 폭을 뷰포트에 맞춤 */
+  }
+  .modal-inner {
+    padding: 12px;             /* 안쪽 여백 살짝 축소 */
+    overflow-x: hidden;        /* 가로 튐 방지 */
+  }
+  .overlay {
+    backdrop-filter: none;     /* select 드롭다운 위치 꼬임 방지(모바일) */
+  }
+  .box .item-img {
+    max-height: 120px; /* 모바일에서 더 작게 */
+    max-width: 60%;
+  }
+}
+
+/* 라운드 버튼: 라운드형 + 가벼운 인터랙션 */
+.round {
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #0f172a;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s;
+}
+.round:hover { background:#ffffff; box-shadow: 0 6px 16px rgba(15,23,42,0.08); transform: translateY(-1px); }
+.round:active { transform: translateY(0); box-shadow: none; }

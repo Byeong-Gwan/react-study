@@ -15,6 +15,9 @@ import init from './assets/init.png'
    * 6. 승패에 결과에 따라 테두리 색이 바뀜(이기면 - 초록, 지면 - 빨강, 비기면 - 검은색)
    */
 
+/**
+ * 선택 객체
+ */
 const choice = {
   scissors: { name: 'Scissors', img: scissors },
   rock: { name: 'Rock', img: rock },
@@ -26,7 +29,14 @@ function App() {
   const [userSelect, setUserSelect] = useState({ name: 'Init', img: init });
   const [computerSelect, setComputerSelect] = useState({ name: 'Init', img: init });
   const [result, setResult] = useState('');
-
+  
+  /**
+   * 
+   * @param {*} userChoice 
+   * @does 사용자가 선택한 값으로 userSelect를 업데이트하고, 
+   * 컴퓨터의 선택으로 computerSelect를 업데이트하고, 
+   * 결과를 결정
+   */
   const play = (userChoice) => {
    setUserSelect(choice[userChoice]); 
 
@@ -35,6 +45,11 @@ function App() {
    setResult(jugement(choice[userChoice], computerChoice))
   }
 
+  /**
+   * 
+   * @returns 
+   * @does 랜덤으로 컴퓨터의 선택을 결정
+   */
   const randomChoice = () => {
       let itemArray = Object.keys(choice);
       let randomItem = Math.floor(Math.random() * itemArray.length);

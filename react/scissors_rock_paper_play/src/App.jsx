@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import './App.css'
 import Box from './component/Box'
 import paper from './assets/paper.png'
@@ -24,22 +24,54 @@ const choice = {
 function App() {
   const [userSelect, setUserSelect] = useState(null);
   const [computerSelect, setComputerSelect] = useState(null);
+  const [result, setResult] = useState('');
 
   const play = (userChoice) => {
    setUserSelect(choice[userChoice]); 
-   setComputerSelect(choice[Object.keys(choice)[Math.floor(Math.random() * 3)]]);
+
+   let computerChoice = randomChoice();
+   setComputerSelect(computerChoice);
+   setResult(jugement(choice[userChoice], computerChoice))
   }
+
+  const randomChoice = () => {
+      let itemArray = Object.keys(choice);
+      let randomItem = Math.floor(Math.random() * itemArray.length);
+      let final = itemArray[randomItem];
+      return choice[final];
+  }
+
+    const jugement = (user, computer) => {
+        // user :: '가위' 일때 computer :: '보' win
+        // user :: '가위' 일때 computer :: '가위' tie
+        // user :: '가위' 일때 computer :: '바위' lose
+        let userResult = '';
+
+        // user와 computer가 같은 경우
+        if (user.name === computer.name) {
+            userResult = 'tie';
+        } else if (user.name === 'Scissors') { // user가 가위일때
+            userResult = computer.name === 'Paper' ? 'win' : 'lose';
+        } else if (user.name === 'Rock') { // user가 바위일때
+            userResult = computer.name === 'Scissors' ? 'win' : 'lose';
+        } else if (user.name === 'Paper') { // user가 보일때
+            userResult = computer.name === 'Rock' ? 'win' : 'lose';
+        }
+
+        // user의 결과를 기준으로 computer 결과 반전
+        return userResult === 'win' ? 'lose' : userResult === 'lose' ? 'win' : 'tie'
+    }
 
   return (
     <div>
-      <div className='main'>
-        <Box title='You' item={userSelect} />
-        <Box title='Computer' item={computerSelect}/>
+      <div className='main cards'>
+        <Box title='You' item={userSelect} result={result} />
+        <Box title='Computer' item={computerSelect} result={result} />
       </div>
       <div className='main'>
-        <button onClick={() => {play('scissors')}}>가위</button>
-        <button onClick={() => {play('rock')}}>바위</button>
-        <button onClick={() => {play('paper')}}>보</button>
+        <button className='round' onClick={() => {play('scissors')}}>가위</button>
+        <button className='round' onClick={() => {play('rock')}}>바위</button>
+        <button className='round' onClick={() => {play('paper')}}>보</button>
       </div>
     </div>
   )

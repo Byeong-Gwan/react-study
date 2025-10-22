@@ -4,7 +4,7 @@ import Box from './component/Box'
 import paper from './assets/paper.png'
 import rock from './assets/rock.png'
 import scissors from './assets/scissors.png'
-
+import init from './assets/init.png'
 /**
    * 가위 바위 보 게임 만들기
    * 1. 박스 두개 you, computer(타이틀), 사진, 결과
@@ -16,14 +16,16 @@ import scissors from './assets/scissors.png'
    */
 
 const choice = {
+  initScreen: { name: 'Init', img: init },
   scissors: { name: 'Scissors', img: scissors },
   rock: { name: 'Rock', img: rock },
   paper: { name: 'Paper', img: paper },
 }
 
 function App() {
-  const [userSelect, setUserSelect] = useState(null);
-  const [computerSelect, setComputerSelect] = useState(null);
+  // 초기 렌더 시 '?' 이미지로 셋팅
+  const [userSelect, setUserSelect] = useState(choice.initScreen);
+  const [computerSelect, setComputerSelect] = useState(choice.initScreen);
   const [result, setResult] = useState('');
 
   const play = (userChoice) => {

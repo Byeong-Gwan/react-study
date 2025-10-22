@@ -256,7 +256,7 @@ h2 {
 /* 승자 팝 애니메이션 */
 @keyframes winner-pop {
   0% { transform: scale(0.98); }
-  100% { transform: scale(1); }
+  100% { transform: scale(2); }
 }
 
 @media (max-width: 640px) {
